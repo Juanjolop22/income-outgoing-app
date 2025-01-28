@@ -2,9 +2,49 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-  }
+}
 
-  body{
-    height: 50%;
-    background-color: rgb(142, 141, 141);
-  }
+html, body{
+    height: 100%;
+    background-color: #f8f9fa;
+}
+
+@mixin heigth-width($height, $width){
+  height: $height;
+  width: $width;
+}
+@mixin make-flex{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+#app{
+  @include heigth-width(100%, 100%);
+  @include make-flex();
+}
+
+.begin-message{
+  @include heigth-width(100%, 100%);
+  @include make-flex();
+  flex-direction: column;
+  margin-bottom: 20%;
+}
+.tittle{
+  font-family: 'Nunito', sans-serif;
+}
+.start-button{
+  margin-top: 2%;
+  font-size: 22px;
+  font-family: 'Nunito', sans-serif;
+  @include heigth-width(40px, 28%);
+  border: 2px solid #f8f9fa;
+  background-color: rgb(199, 202, 202);
+  border-radius: 20px;
+  outline: none;
+  cursor: pointer;
+  transition: transform 0.4s ease;
+}
+.start-button:hover{
+  background-color: rgb(154, 182, 182);
+  transform: scale(1.2);
+}
