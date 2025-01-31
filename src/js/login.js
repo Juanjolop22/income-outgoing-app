@@ -15,11 +15,9 @@ export const listenToStartButton = () => startButton.addEventListener('click', (
         <p>Ingresa tu contraseña.</p>
         <input class = "inputForm2" type="password" name="password" placeholder="kfe123" required><br>
         <button class = "formButton" type="submit">Entrar</button>
+        <div class = 'to-register-div'><p>¿ya estás registrado?</p><button class = "registerButton">registrarse</button></div>
       `;
-    const registerAccount = document.createElement('div');
-    registerAccount.classList.add('to-register-div');
-    registerAccount.innerHTML = `<p>¿ya estás registrado?</p><button class = "registerButton">registrarse</button>`;
-    formContainer.append(form, registerAccount);
+    formContainer.append(form);
     const registerButton = document.querySelector('.registerButton');
-    registerButton.addEventListener('click', createRegisterForm)
+    registerButton.addEventListener('click', createRegisterForm);
 })

@@ -57,6 +57,7 @@ html, body{
 }
 .to-register-div{
     @include make-flex();
+    width: 100%;
     justify-content: end;
     font-size: 19px;
     margin-top:3%;
