@@ -1,4 +1,6 @@
 import { listenToStartButton } from "./login.js";
+import { createUser } from "../main.js";
+
 export const createRegisterForm = () =>{
     const formContainer = document.querySelector('.formContainer');
     formContainer.innerHTML = '';
@@ -6,17 +8,24 @@ export const createRegisterForm = () =>{
 }
 
 const registerFormContent = (formContainer) =>{
+    console.log(formContainer);
+    
     const registerForm = document.createElement('form');
+    registerForm.id = 'registerForm';
     registerForm.innerHTML = `
         <h2>Registrate</h2>
-        <p class = "user">Elige un nombre de usuario.</p>
-        <input class = "inputForm1" type="text" name="username" placeholder="murph567" required><br>
+        <p class = "email-text">¿cuál es tu correo?</p>
+        <input id = "emailRegister" type="email" name="email" placeholder="murph6@example.com" required autocomplete="email"><br>
+        <p class = "user-text">Elige un nombre de usuario.</p>
+        <input id = "userNameRegister" type="text" name="username" placeholder="murph567" required autocomplete="username"><br>
         <p>Elige tu contraseña.</p>
-        <input class = "inputForm2" type="password" name="password" placeholder="dante321" required><br>
-        <button class = "formButton" type="submit">Crear Cuenta.</button>
+        <input id = "passWordRegister" type="password" name="password" placeholder="dante321" required autocomplete="new-password"><br>
+        <button class = "registButton" type="submit">Crear Cuenta.</button>
         <div class = 'to-register-div'><p>¿ya tienes cuenta?</p><button class = "logInButton">Inicia sesión</button></div>
       `;
       formContainer.append(registerForm);
-      const logInButton = document.querySelector('.logInButton');
-      logInButton.addEventListener('click', listenToStartButton);
+      document.querySelector('.logInButton').addEventListener('click', listenToStartButton);
+      console.log(registerForm);
+      
+      registerForm.addEventListener('submit', createUser);
 }

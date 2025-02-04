@@ -86,7 +86,7 @@ form{
     border-bottom: black solid 1px;
     padding-bottom: 2%;
 }
-.inputForm1, .inputForm2{
+.loginUserName, .loginPassWord, #emailRegister, #userNameRegister, .passwordRegister{
     @include heigth-width(2.1em, 80%);
     border: 2px solid #a2b0bd;
     border-radius: 7px;
@@ -94,10 +94,11 @@ form{
     padding-left: 3%;
     color: #262626;
 }
-.user{
+.email-text, .userLoginText{
     margin-top: 8%;
 }
-.formButton{
+
+.loginButton, .registButton{
     border: 2px solid #f8f9fa;
     background-color: rgb(199, 202, 202);
     border-radius: 20px;
@@ -106,6 +107,6 @@ form{
     margin-top: 4%;
     cursor: pointer;
 }
-.formButton:hover{
+.loginButton:hover, .registButton:hover{
     background-color: rgb(154, 182, 182);
 }
