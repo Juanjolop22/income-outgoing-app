@@ -16,11 +16,11 @@ const registerFormContent = (formContainer) =>{
         <h2>Registrate</h2>
         <p class = "email-text">¿cuál es tu correo?</p>
         <input id = "emailRegister" type="email" name="email" placeholder="murph6@example.com" required autocomplete="email"><br>
-        <p class = "user-text">Elige un nombre de usuario.</p>
+        <p class = "user-text">Crea un nombre de usuario.</p>
         <input id = "userNameRegister" type="text" name="username" placeholder="murph567" required autocomplete="username"><br>
-        <p>Elige tu contraseña.</p>
+        <p>Crea una contraseña.</p>
         <input id = "passWordRegister" type="password" name="password" placeholder="dante321" required autocomplete="new-password"><br>
-        <button class = "registButton" type="submit">Crear Cuenta.</button>
+        <button class = "registButton" type="submit">Crear Cuenta</button>
         <div class = 'to-register-div'><p>¿ya tienes cuenta?</p><button class = "logInButton">Inicia sesión</button></div>
       `;
       formContainer.append(registerForm);
@@ -28,4 +28,12 @@ const registerFormContent = (formContainer) =>{
       console.log(registerForm);
       
       registerForm.addEventListener('submit', createUser);
+}
+
+export const succesfullRegist = (userName) =>{
+  const registerForm = document.querySelector('#registerForm');  
+  const welcomeMessage = document.createElement('p');
+  welcomeMessage.classList.add('welcomeText');
+  welcomeMessage.innerHTML = '¡Registro existoso! Bienvenido, ' + userName;
+  registerForm.append(welcomeMessage);
 }

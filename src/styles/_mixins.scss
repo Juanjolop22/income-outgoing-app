@@ -1,0 +1,9 @@
+@mixin height-width($height, $width){
+    height: $height;
+    width: $width;
+}
+@mixin make-flex{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

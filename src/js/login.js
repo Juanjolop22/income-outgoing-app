@@ -1,4 +1,6 @@
 import { createRegisterForm } from "./register.js";
+import { loginUser } from "../main.js";
+import { mainMenu } from "./main-menu.js";
 
 export const listenToStartButton = () => {
   
@@ -19,10 +21,24 @@ export const listenToStartButton = () => {
       <div class = 'to-register-div'><p>¿ya estás registrado?</p><button class = "registerButton">registrarse</button></div>
     `;
   formContainer.append(loginForm);
-  loginForm.addEventListener('submit', (e) => {
-    e.preventDefault();
-    console.log('Intento de inicio de sesión');
-});
+
 loginForm.querySelector('.registerButton').addEventListener('click', createRegisterForm);
+
+goIntoMainMenu(loginForm, app);
+}
+
+const goIntoMainMenu = (loginForm, app) =>{
+  loginForm.addEventListener('submit', async (e) => {
+
+    try {
+      await loginUser(e);
+
+      app.innerHTML = '';
+      mainMenu(app);
+
+    } catch (error) {
+      console.error('Error al iniciar sesión:', error);
+    }
+  });
 }
 

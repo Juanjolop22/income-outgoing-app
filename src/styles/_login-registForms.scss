@@ -1,56 +1,8 @@
-*{
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
+@use 'mixins' as *;
 
-html, body{
-    height: 100%;
-    background-color: #f8f9fa;
-}
-@mixin heigth-width($height, $width){
-    height: $height;
-    width: $width;
-}
-@mixin make-flex{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
- #app{
-    @include heigth-width(100%, 100%);
-    @include make-flex();
-    flex-direction: column;
-}
-  
-.begin-message{
-    @include heigth-width(100%, 100%);
-    @include make-flex();
-    flex-direction: column;
-    margin-top: -30px;
-}
-.tittle{
-    font-family: 'Nunito', sans-serif;
-}
-.start-button{
-    margin-top: 2%;
-    font-size: 22px;
-    font-family: 'Nunito', sans-serif;
-    @include heigth-width(70px, 28%);
-    border: 2px solid #f8f9fa;
-    background-color: rgb(199, 202, 202);
-    border-radius: 20px;
-    outline: none;
-    cursor: pointer;
-    transition: transform 0.4s ease;
-}
-.start-button:hover{
-    background-color: rgb(154, 182, 182);
-    transform: scale(1.2);
-}
 .formContainer{
     margin-bottom: 8%;
-    @include heigth-width(50%, 35%);
+    @include height-width(50%, 35%);
     font-family: 'Nunito', sans-serif;
 
 
@@ -86,8 +38,8 @@ form{
     border-bottom: black solid 1px;
     padding-bottom: 2%;
 }
-.loginUserName, .loginPassWord, #emailRegister, #userNameRegister, .passwordRegister{
-    @include heigth-width(2.1em, 80%);
+.loginUserName, .loginPassWord, #emailRegister, #userNameRegister, #passWordRegister{
+    @include height-width(2.1em, 80%);
     border: 2px solid #a2b0bd;
     border-radius: 7px;
     font-size: 20px;
@@ -103,10 +55,28 @@ form{
     background-color: rgb(199, 202, 202);
     border-radius: 20px;
     font-size: 24px;
-    @include heigth-width(40px, 28%);
+    @include height-width(40px, 28%);
     margin-top: 4%;
     cursor: pointer;
 }
 .loginButton:hover, .registButton:hover{
     background-color: rgb(154, 182, 182);
+}
+
+.logInButton{
+    font-family: 'Nunito', sans-serif;
+        font-size: 19px;
+        border: none;
+        background: none;
+        margin-left: 2%;
+        text-decoration: underline;
+        cursor: pointer;
+}
+.logInButton:hover{
+    color: rgb(8, 89, 89);
+}
+.welcomeText{
+    font-size: 21px;
+    margin-top: 2%;
+    color: rgb(97, 191, 97);
 }

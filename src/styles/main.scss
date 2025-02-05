@@ -1,0 +1,17 @@
+@use 'mixins' as *;
+@use 'welcomeMessage';
+@use 'global';
+@use 'login-registForms';
+@use 'menuBalance';
+
+ #app{
+    @include height-width(100%, 100%);
+    @include make-flex();
+    flex-direction: column;
+}
+  
+
+
+
+
+
