@@ -1,6 +1,7 @@
 @use 'mixins' as *;
 
 .container{
+    background: linear-gradient(45deg, rgb(122, 169, 169)10%, #f8f9fa 30%);
     @include make-flex();
     @include height-width(100%, 100%);
     .current-money-div{
@@ -36,11 +37,13 @@
             background-color: rgb(154, 182, 182);
         }
         #inputInsertMoney{
+            margin-top: 5%;
             @include height-width(2.1em, 80%);
             background-color: #f8f9fa;
             border:none;
             border-bottom: 2px solid #393939;
-            font-size: 20px;
+            font-size: 29px;
+            font-weight: 600;
             padding-left: 3%;
             color: #262626;
             outline: none;
@@ -48,7 +51,7 @@
         }
 
         #insertMoneyButton{
-            margin-top: 2%;
+            margin-top: 5%;
             font-size: 20px;
             font-family: 'Nunito', sans-serif;
             @include height-width(50px, 65%);

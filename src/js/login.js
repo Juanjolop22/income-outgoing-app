@@ -32,6 +32,11 @@ const goIntoMainMenu = (loginForm, app) =>{
 
     try {
       await loginUser(e);
+      const userId = sessionStorage.getItem('userId');
+      
+      if (!userId) {
+        throw new Error('No se ha guardado el userId correctamente');
+      }
 
       app.innerHTML = '';
       mainMenu(app);

@@ -26,7 +26,6 @@ export const createUser = async (e) =>{
 
         const data = await response.json();
         console.log(data);
-       // succesfullRegist(userName);
         
     } catch (error) {
         console.error('Error al registrar el usuario:', error);
@@ -56,14 +55,11 @@ export const loginUser = async (e) => {
         const data = await response.json();
         console.log(data);
         
-        if (data.message === 'inicio de sesión exitoso') {
-           sessionStorage.setItem('userId', data.userId);
-           console.log('Inicio de sesión exitoso, userId guardado:', data.userId);
+            sessionStorage.setItem('userId', data.userId);
+            console.log('Inicio de sesión exitoso, userId guardado:', data.userId);
+            console.log('userId en sessionStorage:', sessionStorage.getItem('userId'));
 
-           
-        } else {
-            alert('Credenciales incorrectas');
-        }
+
 
     } catch (error) {
         console.error('Error al iniciar sesión:', error);
