@@ -3,11 +3,13 @@
 @use 'global';
 @use 'login-registForms';
 @use 'menuBalance';
+@use 'header';
 
  #app{
     @include height-width(100%, 100%);
     @include make-flex();
     flex-direction: column;
+    background: linear-gradient(-45deg, rgb(122, 169, 169)10%, #f8f9fa 30%);
 }
   
 

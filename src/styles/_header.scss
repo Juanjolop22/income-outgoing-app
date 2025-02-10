@@ -1,0 +1,13 @@
+@use 'mixins' as *;
+
+header{
+@include make-flex();
+justify-content: end;
+margin-right: 3%;
+@include height-width(5%, 100%);
+font-size: 1.8em;
+font-family: 'Nunito', sans-serif;
+margin-top: 1%;
+
+
+}

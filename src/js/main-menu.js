@@ -1,3 +1,5 @@
+import { insertMoneyData } from "./insertMoneyData.js";
+import { handleCreateHeader } from "./header-menu.js";
 export const mainMenu = async (app) => {
     const userId = sessionStorage.getItem('userId');
     
@@ -19,14 +21,12 @@ export const mainMenu = async (app) => {
         const data = await response.json();
         console.log('Datos recibidos:', data);
 
-        // Asegúrate de que data.balance exista antes de intentar mostrarlo
-        const balance = data.balance || 0;
-
-        app.innerHTML = `
+        handleCreateHeader(data.username, app);
+        app.innerHTML += `
         <div class="container">
           <div class="current-money-div">
             <h1>Tu balance actual</h1>
-            <p>$<span id="money-balance">${new Intl.NumberFormat("en-US").format(balance)}</span></p>
+            <p>$<span id="money-balance">${new Intl.NumberFormat("en-US").format(data.balance)}</span></p>
             <button class="addMoney-button">Agregar dinero</button>
           </div>
         </div>`;
@@ -61,7 +61,6 @@ const createFormToInsertMoney = () =>{
 
             await insertMoneyData();
 
-            
             inputInsertMoney.value = '';
             formToInsertMoney.remove();
             addMoneyButton.style.display = 'block';
@@ -83,40 +82,4 @@ const inputFirstLetter = () =>{
     });
 }
 
-const insertMoneyData = async () =>{
 
-    const moneyAmount = document.getElementById('inputInsertMoney').value.replace(/[^0-9.]/g, "");
-    const userId = sessionStorage.getItem('userId');
-    console.log('userId obtenido de sessionStorage:', userId);
-    console.log(moneyAmount, userId);
-    
-    if (!userId) return;
-    console.log(userId);
-    console.log("Data being sent:", { moneyAmount, userId });
-
-    try { 
-        const response = await fetch('http://localhost:3001/insertMoney', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ moneyAmount, userId })
-        });
-
-        if (!response.ok) {
-            throw new Error('Error al ingresar dinero');
-        }
-
-        const data = await response.json();
-        console.log(data.balance);
-
-        if (data.message === 'Ingreso registrado con éxito'){
-            const balanceElement = document.getElementById('money-balance');
-            if (balanceElement) {
-                balanceElement.textContent = new Intl.NumberFormat("en-US").format(data.balance);
-            }
-         }
-        
-    } catch (error) {
-        console.error('Error al agregar dinero:', error);
-        alert('Ocurrió un error al intentar agregar dinero');
-    }
-};

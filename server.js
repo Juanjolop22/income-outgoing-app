@@ -105,19 +105,26 @@ app.post('/insertMoney', (req, res) => {
 app.get('/getUserBalance', (req, res) => {
     const { userId } = req.query;
 
-        console.log('Falta userId en la solicitud');
+    const query = `
+    SELECT u.username, COALESCE(SUM(e.amount), 0) AS balance 
+    FROM users u 
+    LEFT JOIN earnings e ON u.id = e.user_id 
+    WHERE u.id = ?;
+`;
 
-    pool.query('SELECT SUM(amount) AS balance FROM earnings WHERE user_id = ?', [userId], (err, result) => {
+    pool.query(query, [userId], (err, result) => {
         if (err) {
             console.error('Error al consultar la base de datos:', err);
             return res.status(500).json({ message: 'Error al obtener el balance' });
         }
 
-        if (result.length === 0) {
+        if (result.length === 0 || !result[0].username) {
             return res.status(404).json({ message: 'Usuario no encontrado' });
         }
 
-        res.json({ balance: result[0].balance });
+        res.json({ username: result[0].username,
+            balance: result[0].balance
+         });
     });
 });
 app.listen(3001, () => {
