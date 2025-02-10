@@ -1,20 +1,10 @@
 @use 'mixins' as *;
 
 .container{
-    background: linear-gradient(45deg, rgb(122, 169, 169)10%, #f8f9fa 30%);
     @include make-flex();
     @include height-width(100%, 100%);
-    background-size: 150% 100%;
-    animation:  slideBackground 1s ease-in-out forwards;
-
-    @keyframes slideBackground {
-        from {
-            background-position: 80% 0;
-        }
-        to {
-            background-position: 0% 0;
-        }
-    }
+    margin-top: 4%;
+    align-items: start;
 
     .current-money-div{
         @include height-width(50%, 50%);
@@ -49,7 +39,6 @@
             background-color: rgb(154, 182, 182);
         }
         #inputInsertMoney{
-            margin-top: 5%;
             @include height-width(2.1em, 80%);
             background-color: #f8f9fa;
             border:none;

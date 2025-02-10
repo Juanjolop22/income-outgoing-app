@@ -32,6 +32,7 @@ export const mainMenu = async (app) => {
         </div>`;
 
         createFormToInsertMoney();
+        app.classList.add('app-background');
 
     } catch (error) {
         console.error('Error al obtener el balance:', error);
