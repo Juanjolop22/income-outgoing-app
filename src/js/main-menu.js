@@ -1,6 +1,7 @@
 import { insertMoneyData } from "./insertMoneyData.js";
 import { handleCreateHeader } from "./header-menu.js";
-import { createFormToWithdrawMoney } from "./withdraw-money-data.js";
+//import { createFormToWithdrawMoney } from "./withdraw-money-data.js";
+import {withdrawMoneyData } from "./withdraw-money-data.js";
 export const mainMenu = async (app) => {
     const userId = sessionStorage.getItem('userId');
     
@@ -35,8 +36,11 @@ export const mainMenu = async (app) => {
           </div>
         </div>`;
 
-        createFormToInsertMoney();
-        createFormToWithdrawMoney();
+        handleUpdateMoneyBalance('addMoney-button', '¿cuanto agregaras?', '¡Listo!',
+             'formToInsertMoney', 'inputInsertMoney', insertMoneyData);
+        handleUpdateMoneyBalance('addMoney-button2', '¿cuanto retiraras?', '¡Retirar!',
+             'formToWithdrawMoney', 'inputWithdrawMoney', withdrawMoneyData);
+
         app.classList.add('app-background');
 
     } catch (error) {
@@ -45,29 +49,29 @@ export const mainMenu = async (app) => {
     }
 };
 
-const createFormToInsertMoney = () =>{
-    const addMoneyButton = document.querySelector('.addMoney-button');
+const handleUpdateMoneyBalance = (buttonSelector, placeholderText, submitText, formId, inputId, dataFunction) =>{
+    const addMoneyButton = document.querySelector(`.${buttonSelector}`);
     addMoneyButton.addEventListener('click', ()=>{
-        const formToInsertMoney = document.createElement('form');
+        const formToHandleMoney = document.createElement('form');
         const balanceFormbuttons = document.querySelector('#balanceButtons');
         balanceFormbuttons.style.display = 'none';
-        formToInsertMoney.id = 'formToInsertMoney'; 
-        formToInsertMoney.innerHTML = `<input type="text" id="inputInsertMoney" name="miInput" placeholder = "¿cuanto agregaras?">
-        <button type="submit" id = "insertMoneyButton">¡Listo!</button>`;
+        formToHandleMoney.id = `${formId}`; 
+        formToHandleMoney.innerHTML = `<input type="text" id="${inputId}" name="miInput" placeholder = "${placeholderText}">
+        <button type="submit" id = "insertMoneyButton">${submitText}</button>`;
 
-        document.querySelector('.current-money-div').append(formToInsertMoney);
-        formToInsertMoney.addEventListener('submit', async (e) => {
+        document.querySelector('.current-money-div').append(formToHandleMoney);
+        formToHandleMoney.addEventListener('submit', async (e) => {
             e.preventDefault(); 
-            const inputInsertMoney = document.getElementById('inputInsertMoney');
-            const moneyValue = inputInsertMoney.value;
+            const inputToHandleMoney = document.getElementById(`${inputId}`);
+            const moneyValue = inputToHandleMoney.value;
             if (moneyValue.startsWith("$ 0")) {
                 console.log('Ingresa un número válido');
                 alert('Por favor, ingresa un monto mayor que 0');
                 return;
             } 
             const resetForm = () =>{
-                inputInsertMoney.value = '';
-                formToInsertMoney.remove();
+                inputToHandleMoney.value = '';
+                formToHandleMoney.remove();
                 balanceFormbuttons.style.display = 'flex';
             }
             
@@ -76,17 +80,17 @@ const createFormToInsertMoney = () =>{
                  return
             }
 
-            await insertMoneyData();
+            await dataFunction();
 
 
             resetForm();
         });
-        inputFirstLetter();
+        inputFirstLetter(inputId);
     });
 }
 
-export const inputFirstLetter = () =>{
-    document.getElementById('inputInsertMoney').addEventListener("input", function () {
+export const inputFirstLetter = (input) =>{
+    document.getElementById(`${input}`).addEventListener("input", function () {
         
         if (!this.value.startsWith("$")) {
             this.value = "$" + this.value.replace("$", ""); 

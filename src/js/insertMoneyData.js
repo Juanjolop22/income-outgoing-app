@@ -30,11 +30,8 @@ export const insertMoneyData = async () =>{
             }
          }
 
-        
     } catch (error) {
         console.error('Error al agregar dinero:', error);
         alert('Ocurrió un error al intentar agregar dinero');
     }
-
-    
 };

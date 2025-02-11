@@ -50,7 +50,7 @@
             background-color: rgb(191, 129, 129)
 
         }
-        #inputInsertMoney{
+        #inputInsertMoney, #inputWithdrawMoney{
             @include height-width(2.1em, 80%);
             background-color: #f8f9fa;
             border:none;

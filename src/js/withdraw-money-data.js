@@ -1,5 +1,5 @@
-import { inputFirstLetter } from "./main-menu.js";
-const withdrawMoneyData = async () =>{
+//import { inputFirstLetter } from "./main-menu.js";
+export const withdrawMoneyData = async () =>{
     const moneyAmount = document.getElementById('inputInsertMoney').value.replace(/[^0-9.]/g, "");
     const userId = sessionStorage.getItem('userId');
     try{
@@ -27,7 +27,7 @@ const withdrawMoneyData = async () =>{
     }
 };
 
-export const createFormToWithdrawMoney = () =>{
+/*export const createFormToWithdrawMoney = () =>{
     const withdrawMoneyMoneyButton = document.querySelector('.addMoney-button2');
     withdrawMoneyMoneyButton.addEventListener('click', ()=>{
         const formToWithdrawMoney = document.createElement('form');
@@ -63,4 +63,4 @@ export const createFormToWithdrawMoney = () =>{
     inputFirstLetter();
     });    
 
-};
+};*/
