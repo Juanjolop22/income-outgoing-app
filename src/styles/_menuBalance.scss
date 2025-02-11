@@ -24,11 +24,16 @@
             font-weight: 300;
             }
         }
-        .addMoney-button{
+        #balanceButtons{
+            @include make-flex();
+            @include height-width(15%, 100%);
+        }
+        .addMoney-button, .addMoney-button2{
+            padding: 0px;
             margin-top: 2%;
-            font-size: 22px;
+            font-size: 20px;
             font-family: 'Nunito', sans-serif;
-            @include height-width(50px, 20%);
+            @include height-width(50px, 19%);
             border: 2px solid #f8f9fa;
             background-color: rgb(199, 202, 202);
             border-radius: 20px;
@@ -37,6 +42,13 @@
         }
         .addMoney-button:hover{
             background-color: rgb(154, 182, 182);
+        }
+        .addMoney-button2{
+            margin-left: 5%;
+        }
+        .addMoney-button2:hover{
+            background-color: rgb(191, 129, 129)
+
         }
         #inputInsertMoney{
             @include height-width(2.1em, 80%);
@@ -65,9 +77,10 @@
         #insertMoneyButton:hover{
             background-color: rgb(122, 169, 169);
         }
-        #formToInsertMoney{
+        #formToInsertMoney, #formToWithdrawMoney{
             border: none;
         }
 
     }
+
 }

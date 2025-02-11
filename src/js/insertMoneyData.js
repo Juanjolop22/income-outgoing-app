@@ -29,9 +29,12 @@ export const insertMoneyData = async () =>{
                 balanceElement.textContent = new Intl.NumberFormat("en-US").format(data.balance);
             }
          }
+
         
     } catch (error) {
         console.error('Error al agregar dinero:', error);
         alert('Ocurrió un error al intentar agregar dinero');
     }
+
+    
 };

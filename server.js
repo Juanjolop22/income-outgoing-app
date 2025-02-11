@@ -127,6 +127,40 @@ app.get('/getUserBalance', (req, res) => {
          });
     });
 });
+app.post('/withdrawMoney', (req, res) =>{
+    const {userId, moneyAmount} = req.body;
+
+    const balanceQuery = `SELECT COALESCE(SUM(amount),0) AS balance FROM earnings WHERE user_Id = ?`;
+    pool.query(balanceQuery, [userId], (err, result) =>{
+
+        if (err) {
+            return res.status(500).json({ message: 'Error al obtener el balance', error: err });
+        }
+        const currentBalance = result[0].balance;
+
+        if (currentBalance < moneyAmount) {
+            return res.status(400).json({ message: 'Fondos insuficientes' });
+        }
+
+        pool.query('INSERT INTO earnings (user_id, amount) VALUES (?, ?)', [userId, -moneyAmount], (err) => {
+            if (err) {
+                return res.status(500).json({ message: 'Error al registrar el retiro', error: err });
+            }
+
+            pool.query(balanceQuery, [userId], (err, newResult) => {
+                if (err) {
+                    return res.status(500).json({ message: 'Error al obtener el balance', error: err });
+                }
+
+                res.json({
+                    message: 'Retiro registrado con éxito',
+                    balance: newResult[0].balance
+                });
+            });
+        });
+    });
+});
+
 app.listen(3001, () => {
     console.log('Servidor corriendo en http://localhost:3001');
 });
