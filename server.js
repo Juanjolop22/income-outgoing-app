@@ -14,10 +14,9 @@ const pool = mysql.createPool({
     password: 'Halo4816470.',
     database: 'earnings_outgoings',
     waitForConnections: true,
-    connectionLimit: 10, // Número máximo de conexiones en el pool
+    connectionLimit: 10, 
     queueLimit: 0
 });
-
 
 app.get('/', (req, res) => {
     res.status(200).json({ message: 'Servidor funcionando' });

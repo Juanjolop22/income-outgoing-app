@@ -2,12 +2,80 @@
 
 header{
 @include make-flex();
-justify-content: end;
-margin-right: 3%;
-@include height-width(5%, 100%);
+justify-content: space-between;
+@include height-width(5%, 95%);
 font-size: 1.8em;
 font-family: 'Nunito', sans-serif;
 margin-top: 1%;
+}
+#displayNavButton{
+    color: rgb(11, 11, 11);
+    font-size: 35px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+#displayNavButton i:hover{
+    color: rgb(112, 169, 169);
+    transition: color 0.3s ease;
+}
 
+#divNav{
+    position: absolute;
+    @include make-flex();
+    background: linear-gradient(45deg, rgb(108, 53, 53)10%, #f8f9fa 50%);
+    justify-content: end;
+    align-items: start;
+    top: 0;
+    left: 0;
+    @include height-width(100vh, 22%);
+    box-shadow: 2px 0px 10px rgba(0, 0, 0, 0.2);
+    transform: translateX(-100%); 
+    transition: transform 0.5s ease-in-out !important;
+    z-index: 100 !important; 
+    nav{
+        margin: 30% auto;
+        width: 80%;
+        text-align: center;
+        ul{
+        list-style: none;
+        width: 100%;
+          li{
+            border-bottom: black solid 1px;
+            button{
+                font-size: 28px;
+                font-family: 'Nunito', sans-serif;
+                border:none;
+                background-color:#f8f9fa;
+                cursor: pointer;
+            }
+            button:hover{
+                color: rgb(108, 53, 53);
 
+            }
+         }
+            .lis{
+              margin-top: 10%;
+            }
+        }
+    }
+}
+
+.show-menu {
+    transform: translateX(0) !important;
+}
+.hide-menu {
+    transform: translateX(-100%); 
+}
+#close-nav-button{
+    margin: 2% 3%;
+    font-size: 1.1em;
+    border: none;
+    background-color: #f8f9fa;
+    position: absolute;
+    cursor: pointer;
+}
+#close-nav-button:hover{
+    color: rgb(112, 169, 169);
 }
