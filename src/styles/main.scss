@@ -4,6 +4,7 @@
 @use 'login-registForms';
 @use 'menuBalance';
 @use 'header';
+@use 'header-menu-info';
 
  #app{
     @include height-width(100%, 100%);

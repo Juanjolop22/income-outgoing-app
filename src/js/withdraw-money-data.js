@@ -1,5 +1,6 @@
 export const withdrawMoneyData = async () =>{
-    const moneyAmount = document.getElementById('inputWithdrawMoney').value.replace(/[^0-9.]/g, "");
+    const moneyAmount = parseFloat(document.getElementById('inputWithdrawMoney').value.replace(/[^0-9.]/g, ""));
+
     console.log(moneyAmount);
     const userId = sessionStorage.getItem('userId');
     try{

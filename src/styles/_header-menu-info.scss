@@ -1,0 +1,37 @@
+@use 'mixins' as *;
+
+#infoContainer{
+    @include height-width(100%, 100%);
+    @include make-flex();
+    align-items: start;
+    font-family: 'Nunito', sans-serif;
+    font-size: 1.9em;
+    margin-top: 4%;
+    p{
+        margin-top: 8%;
+        border-bottom: 1px solid gray;
+    }
+
+    #returnToMenuDiv{
+        margin-top: 10%;
+        @include make-flex();
+    }
+    
+    #returnToMenuButton{
+        font-size: 20px;
+        font-family: 'Nunito', sans-serif;
+        @include height-width(50px, 65%);
+        border: 2px solid #f8f9fa;
+        background-color: rgb(199, 202, 202);
+        border-radius: 20px;
+        outline: none;
+        cursor: pointer;
+    }
+
+    #returnToMenuButton:hover{
+        background-color: rgb(122, 169, 169);
+    }
+
+}
+
+

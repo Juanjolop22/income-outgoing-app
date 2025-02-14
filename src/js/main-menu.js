@@ -23,7 +23,7 @@ export const mainMenu = async (app) => {
         const data = await response.json();
         console.log('Datos recibidos:', data);
 
-        handleCreateHeader(data.username, app);
+        handleCreateHeader(data, app);
         app.innerHTML += `
         <div class="container">
           <div class="current-money-div">
