@@ -1,0 +1,48 @@
+@use 'mixins' as *;
+
+#categories-div{
+    @include make-flex();
+    @include height-width(20%, 100%);
+    #categories-tittle, p{
+        font-family: 'Nunito', sans-serif;
+        font-size: 2.5em;
+    }
+    #categories-tittle{
+        border-bottom: 1px solid rgb(133, 132, 132)
+    }
+    p{
+        color: rgb(69, 68, 68);
+    }
+    #kind-of-category-div{
+        @include make-flex();
+        flex-direction: column;
+    }
+    .categories-container{
+        @include make-flex();
+        @include height-width(10%, 100%);
+        gap: 1px;
+        margin: auto;
+        margin-top: 8%;
+    }
+    .categories-div, .categories-div2{
+        text-align: center;
+    }
+    .categories-div2{
+        margin-left: 10%;
+    }
+
+    #expenseButton, #incomeButton{
+        font-size: 3em;
+        color: red;
+        background: none;
+        border: none;
+        cursor: pointer;
+        transition: transform 0.5s ease;
+    }
+    #incomeButton{
+        color: green;
+    }
+    #incomeButton:hover, #expenseButton:hover {
+        transform: scale(1.4);
+    }
+}

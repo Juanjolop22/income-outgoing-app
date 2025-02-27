@@ -3,8 +3,8 @@
 .container{
     @include make-flex();
     @include height-width(100%, 100%);
-    margin-top: 4%;
-    align-items: start;
+    justify-content: start;
+    flex-direction: column;
 
     .current-money-div{
         @include height-width(50%, 50%);
@@ -47,7 +47,7 @@
             margin-left: 5%;
         }
         .addMoney-button2:hover{
-            background-color: rgb(191, 129, 129)
+            background-color: rgb(191, 129, 129);
 
         }
         #inputInsertMoney, #inputWithdrawMoney{

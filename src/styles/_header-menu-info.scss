@@ -33,5 +33,25 @@
     }
 
 }
+#makeNumberGreen, #makeTextGreen{
+    color: rgb(5, 116, 5);
+}
+#makeNumberRed, #makeTextRed{
+    color: rgb(138, 5, 5);
+}
+#makeTextGray{
+    color: rgb(175, 172, 172);
+}
+
+#transactionsList{
+    list-style: none;
+    li{
+        p{
+          font-weight: 200 !important;
+        }
+    }
+}
+
+
 
 

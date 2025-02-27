@@ -1,7 +1,8 @@
 import { insertMoneyData } from "./insertMoneyData.js";
 import { handleCreateHeader } from "./header-menu.js";
-//import { createFormToWithdrawMoney } from "./withdraw-money-data.js";
 import {withdrawMoneyData } from "./withdraw-money-data.js";
+import { selectCategory } from "./choose-category.js";
+
 export const mainMenu = async (app) => {
     const userId = sessionStorage.getItem('userId');
     
@@ -35,6 +36,8 @@ export const mainMenu = async (app) => {
             </div>
           </div>
         </div>`;
+        selectCategory();
+
 
         handleUpdateMoneyBalance('addMoney-button', '¿cuanto agregaras?', '¡Listo!',
              'formToInsertMoney', 'inputInsertMoney', insertMoneyData);
@@ -81,7 +84,6 @@ const handleUpdateMoneyBalance = (buttonSelector, placeholderText, submitText, f
             }
 
             await dataFunction();
-
 
             resetForm();
         });

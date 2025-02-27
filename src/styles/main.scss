@@ -5,6 +5,7 @@
 @use 'menuBalance';
 @use 'header';
 @use 'header-menu-info';
+@use 'categories';
 
  #app{
     @include height-width(100%, 100%);

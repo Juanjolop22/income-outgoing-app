@@ -36,10 +36,15 @@ const navButton = document.getElementById('displayNavButton');
                 }, 10);
                 console.log(header);     
         }
-            document.getElementById('myAccountInfoButton').addEventListener('click', () => AccountInfo('myAccount', data, app));
-            document.getElementById('transactionsInfoButton').addEventListener('click', () => AccountInfo('transactions', data, app));
-            document.getElementById('aboutUsInfoButton').addEventListener('click', () => AccountInfo('about us', data, app));
-            
+
+        const buttonConfig = {
+            'myAccountInfoButton': 'myAccount',
+            'transactionsInfoButton': 'transactions',
+            'aboutUsInfoButton': 'about us'
+        };
+
+        handleEachButton(buttonConfig, data, app);
+
         const closeNavButton = document.getElementById('close-nav-button');
          closeNavButton.addEventListener('click', ()=>{
             divNav.classList.remove('show-menu');
@@ -47,6 +52,12 @@ const navButton = document.getElementById('displayNavButton');
                 divNav.remove(); 
             }, 500);
         });  
+    });
+}
+
+export const handleEachButton = (selectedStage, data, app) =>{
+    Object.entries(selectedStage).forEach(([buttonId, section])=>{
+        document.getElementById(buttonId).addEventListener('click', ()=>AccountInfo(section, data, app));
     });
 }
 
