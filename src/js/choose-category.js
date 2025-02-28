@@ -1,3 +1,4 @@
+import { displaySelectedCategories } from "./display-categories.js";
 export const selectCategory = () =>{
    const container = document.querySelector('.container');
    const categoriesDiv = document.createElement('div');
@@ -6,13 +7,13 @@ export const selectCategory = () =>{
     <div id="kind-of-category-div">
         <h2 id="categories-tittle">Elige La Categoria Que Deseas Consultar: </h2>
         <div class="categories-container">
-            <div class="categories-div">
+            <div class="category-income-div">
                 <button id="incomeButton">
                     <i class="fas fa-arrow-up" id ="fasfa-arrow-up"></i>
                 </button>
                 <p class="categories-text">Ingresos</p>
             </div>
-            <div class="categories-div2">
+            <div class="category-expense-div">
                 <button id="expenseButton">
                     <i class="fas fa-arrow-down" id = "fasfa-arrow-down"></i>
                 </button>
@@ -22,4 +23,5 @@ export const selectCategory = () =>{
     </div>
    `;
    container.append(categoriesDiv);
+   document.getElementById('incomeButton').addEventListener('click', displaySelectedCategories);
 }
