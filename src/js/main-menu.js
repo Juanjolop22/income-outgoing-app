@@ -11,10 +11,8 @@ export const mainMenu = async (app) => {
         return alert('No se ha iniciado sesión correctamente.');
     }
     
-    console.log('userId:', userId);
 
     try {
-        console.log('Haciendo petición a /getUserBalance...');
         const response = await fetch(`http://localhost:3001/getUserBalance?userId=${userId}`);
 
         if (!response.ok) {
@@ -22,7 +20,6 @@ export const mainMenu = async (app) => {
         }
 
         const data = await response.json();
-        console.log('Datos recibidos:', data);
 
         handleCreateHeader(data, app);
         app.innerHTML += `

@@ -46,3 +46,147 @@
         transform: scale(1.4);
     }
 }
+@mixin back-btn{
+
+}
+#category-divIncome, #category-divExpense{
+    @include make-flex();
+    justify-content: start;
+    flex-direction: column;
+    font-family: 'Nunito', sans-serif;
+    @include height-width(50%, 100%);
+    position: relative;
+
+    #income-tittle, #expense-tittle{
+        font-size: 2.5em;
+        margin-bottom: 2%;
+        color: rgb(35, 87, 35);  
+    }
+    #expense-tittle{
+        color: rgb(166, 3, 3);
+    }
+    #arrow-left{
+        font-size: 3em;
+    }
+    #backButtonDiv{
+        position: absolute;
+        left: 25%;
+        top: 1.5%;  
+    }
+    .back-btn{
+        color: rgb(79, 79, 79);
+        background: none;
+        border: none;
+        cursor: pointer;
+        text-align: left;
+    }
+    .back-btn:hover{
+        color: rgb(76, 134, 161);
+    }
+
+    #eachIncomeCategorie, #eachExpenseCategorie{
+        @include make-flex();
+        font-size: 1.5em;
+        gap: 100px;
+        i{
+            font-size: 4.5em;
+        }
+
+        .categories{
+            @include make-flex();
+            flex-direction: column;
+
+            button{
+                border: none;
+                background: none;
+                cursor: pointer;
+                transition: transform 0.2s ease;
+
+                #salary-i{
+                    color: rgb(21, 126, 21);
+                }
+                #freelance-i{
+                    color: rgb(93, 94, 93);
+                }
+                #business-i{
+                    color: rgb(8, 48, 58);
+                }
+                #pension-i{
+                    color: rgb(186, 186, 4);
+                }
+                #housing-i{
+                    color:rgb(3, 129, 22);
+                }
+                #transport-i{
+                    color: rgb(108, 11, 11);
+                }
+                #food-i{
+                    color:rgb(98, 97, 97);
+                }
+                #film-i{
+                    color: #B8860B;
+                }
+
+            }
+            .categorieButtons:hover{
+                transform: scale(1.2); 
+            }
+        }
+    }
+}
+.every-category-div{
+    @include make-flex();
+    align-items: start;
+    position: relative;
+    @include height-width(50%, 100%);
+
+    #backButtonDiv2{
+        position: absolute;
+        left: 28%;
+        top: -8%; 
+        #back-button{
+            color: rgb(79, 79, 79);
+            font-size: 2.2em;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+        #back-button:hover{
+            color: rgb(76, 134, 161);
+        }
+    }
+
+    .divIncomesForm{
+        @include height-width(50%, 70%);
+        #add-income-form{
+            border-bottom: none;
+            gap: 15px;
+            @include height-width(100%, 100%);
+
+            .input-group{
+                margin-top: 4%;
+                @include make-flex();
+                @include height-width(100%, 100%);
+                flex-direction: column;
+                label{
+                    @include height-width(100%, 80%);
+                    font-size: 1.3em;
+                }
+                #income-description, #income-amount{
+                    margin-top: 3%;
+                    @include height-width(100%, 40%);
+                    font-size: 0.8em;
+                    border: none;
+                    border-bottom: 2px solid gray;
+                    background: none;
+                    outline: none;
+                }
+                #income-amount{
+                    @include height-width(100%, 20%);
+
+
+                }
+            }
+        }
+    }
+}

@@ -1,51 +1,119 @@
-import { handleEachButton } from "./header-menu.js";
-export const displaySelectedCategories = () =>{
-    let categoryDiv = document.getElementById('category-div');
-    const kindOfCategory = document.getElementById('kind-of-category-div');
+import { processEachMovement } from "./processEachCategoryMovement.js";
+import { selectCategory } from "./choose-category.js";
 
-    if (!categoryDiv && kindOfCategory) {
-        categoryDiv = document.createElement('div');
-        categoryDiv.id = 'category-div' + 'Income';
-        kindOfCategory.remove();
+export const displaySelectedCategories = (type) =>{
+    let categoryDiv = document.getElementById('category-div');
+    let categoriesDiv = document.getElementById('categories-div');
+    const container = document.querySelector('.container');
+
+    if (categoriesDiv) {
+        categoriesDiv.remove();
     }
 
-    if (categoryDiv.id === 'category-divIncome') {
-        categoryDiv.innerHTML = `
-        <h2 id="income-tittle">Ingresos</h2>
-        <div id="income-list">
+    if (!categoryDiv) {
+        categoryDiv = document.createElement('div');
+        categoryDiv.id = `category-div${type === 'income' ? 'Income' : 'Expense'}`;
+    }
 
+    if (type === 'income') {
+        categoryDiv.innerHTML = `
+        <h2 id="income-tittle">Selecciona el tipo de ingreso:</h2>
+        <div id="backButtonDiv">
+            <button class="back-btn">
+                <i class="fas fa-arrow-left" id="arrow-left"></i>
+            </button>
         </div>
-            <form id="add-income-form" class="income-form">
-                <div class="input-group">
-                    <label for="income-source">Fuente del ingreso:</label>
-                    <input type="text" id="income-source" placeholder="Ej. Salario, Freelance" required>
-                </div>
-                <div class="input-group">
-                    <label for="income-amount">Cantidad:</label>
-                    <input type="number" id="income-amount" placeholder="Ej. 500" min="0" step="0.01" required>
-                </div>
-                <button type="submit" id="add-income-btn">Agregar ingreso</button>
-            </form>
+        <div id="eachIncomeCategorie">
+            <div id="salaryDiv">
+                <label class="salary-label categories">
+                    <button class="salary-btn categorieButtons">
+                        <i class="fas fa-money-bill-wave" id="salary-i"></i>
+                    </button>
+                    <span>Salario</span>
+                </label>
+            </div>
+            <div id="freelanceDiv">
+                <label class="freelance-label categories">
+                    <button class="freelance-btn categorieButtons">
+                        <i class="fas fa-user-tie" id="freelance-i"></i>
+                    </button>
+                    <span>Freelance</span>
+                </label>
+            </div>
+            <div id="bussinessDiv">
+                 <label class="business-label categories">
+                    <button class="business-btn categorieButtons">
+                        <i class="fas fa-briefcase" id="business-i"></i>
+                    </button>
+                    <span>Negocios</span>
+                </label>
+            </div>
+            <div id="pensionDiv">
+                <label class="pension-label categories">
+                    <button class="pension-btn categorieButtons">
+                        <i class="fas fa-piggy-bank" id="pension-i"></i>
+                    </button>
+                    <span>Pensión</span>
+                </label>
+            </div>
+        </div>
         `;
     }
-    if (categoryDiv.id === 'category-divExpense') {
+
+    if (type === 'expense') {
         categoryDiv.innerHTML = `
         <h2 id="expense-tittle">Egresos</h2>
-        <div id="expense-list">
+        <div id="backButtonDiv">
+            <button class="back-btn ">
+                <i class="fas fa-arrow-left" id="arrow-left"></i>
+            </button>
         </div>
-            <form id="add-expense-form" class="expense-form">
-                <div class="input-group">
-                    <label for="expense-source">Motivo del egreso:</label>
-                    <input type="text" id="expense-source" placeholder="Ej. Supermercado, Transporte" required>
-                </div>
-                <div class="input-group">
-                    <label for="expense-amount">Cantidad:</label>
-                    <input type="number" id="expense-amount" placeholder="Ej. 100" min="0" step="0.01" required>
-                </div>
-                <button type="submit" id="add-expense-btn">Agregar egreso</button>
-            </form>
+        <div id="eachExpenseCategorie">
+            <div id="housingDiv">
+                <label class="housing-label categories">
+                    <button class="housing-btn categorieButtons">
+                        <i class="fas fa-home" id="housing-i"></i>
+                    </button>
+                    <span>Vivienda</span>
+                </label>
+            </div>
+            <div id="transportDiv">
+                <label class="transport-label categories">
+                    <button class="transport-btn categorieButtons">
+                        <i class="fas fa-car" id="transport-i"></i>
+                    </button>
+                    <span>Transporte</span>
+                </label>
+            </div>
+            <div id="foodDiv">
+                <label class="food-label categories">
+                    <button class="food-btn categorieButtons">
+                        <i class="fas fa-utensils" id="food-i"></i>
+                    </button>
+                    <span>Alimentación</span>
+                </label>
+            </div>
+            <div id="entertainmentDiv">
+                <label class="entertainment-label categories">
+                    <button class="entertainment-btn categorieButtons">
+                        <i class="fas fa-film" id = "film-i"></i>
+                    </button>
+                    <span>Ocio</span>
+                </label>
+            </div>
+        </div>
         `;
     }
-    const categoriesDiv = document.getElementById('categories-div');
-    categoriesDiv.append(categoryDiv);
+    container.append(categoryDiv);
+    categoryDiv.querySelector('.back-btn').addEventListener('click', ()=>{
+        backToChooseCategory(categoryDiv)
+    });
+    processEachMovement(type);
+
 } 
+
+const backToChooseCategory = (categoryDiv) =>{
+    categoryDiv.remove();
+    selectCategory();
+}
+

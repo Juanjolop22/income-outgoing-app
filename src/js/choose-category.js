@@ -1,4 +1,5 @@
 import { displaySelectedCategories } from "./display-categories.js";
+import { handleEachButton } from "./header-menu.js";
 export const selectCategory = () =>{
    const container = document.querySelector('.container');
    const categoriesDiv = document.createElement('div');
@@ -22,6 +23,20 @@ export const selectCategory = () =>{
         </div>
     </div>
    `;
+
    container.append(categoriesDiv);
-   document.getElementById('incomeButton').addEventListener('click', displaySelectedCategories);
+
+   const buttonActions = {
+    'incomeButton': 'income',
+    'expenseButton': 'expense'
+    };
+
+    const attachButtonEvent = (buttonId, type) => {
+        const button = document.getElementById(buttonId);
+        button.addEventListener('click', () => {
+            displaySelectedCategories(type); 
+        });
+    };
+    
+   handleEachButton(buttonActions, null, null, attachButtonEvent);
 }

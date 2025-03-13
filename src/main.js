@@ -56,8 +56,6 @@ export const loginUser = async (e) => {
         console.log(data);
         
             sessionStorage.setItem('userId', data.userId);
-            console.log('Inicio de sesión exitoso, userId guardado:', data.userId);
-            console.log('userId en sessionStorage:', sessionStorage.getItem('userId'));
 
 
 

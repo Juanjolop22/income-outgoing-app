@@ -7,7 +7,7 @@
     flex-direction: column;
 
     .current-money-div{
-        @include height-width(50%, 50%);
+        @include height-width(42%, 50%);
         @include make-flex();
         justify-content: start;
         flex-direction: column;

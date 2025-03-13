@@ -1,6 +1,5 @@
 import { AccountInfo} from "./show-account-info.js";
 export const handleCreateHeader = (data, app) =>{
-    console.log(app);
     const createHeader = document.createElement('header');
     createHeader.id = 'main-header';
     createHeader.innerHTML = 
@@ -32,9 +31,7 @@ const navButton = document.getElementById('displayNavButton');
     
                 setTimeout(() => {
                     divNav.classList.add('show-menu');
-                    console.log(divNav); 
                 }, 10);
-                console.log(header);     
         }
 
         const buttonConfig = {
@@ -43,7 +40,7 @@ const navButton = document.getElementById('displayNavButton');
             'aboutUsInfoButton': 'about us'
         };
 
-        handleEachButton(buttonConfig, data, app);
+        handleEachButton(buttonConfig, data, app, getElementAndAddEvents);
 
         const closeNavButton = document.getElementById('close-nav-button');
          closeNavButton.addEventListener('click', ()=>{
@@ -55,10 +52,13 @@ const navButton = document.getElementById('displayNavButton');
     });
 }
 
-export const handleEachButton = (selectedStage, data, app) =>{
-    Object.entries(selectedStage).forEach(([buttonId, section])=>{
-        document.getElementById(buttonId).addEventListener('click', ()=>AccountInfo(section, data, app));
+export const handleEachButton = (objectButtons, data, app, callback) =>{
+    Object.entries(objectButtons).forEach(([buttonId, section])=>{
+        callback(buttonId, section, data, app)
     });
 }
 
-
+const getElementAndAddEvents = (buttonId, section, data, app) =>{
+    document.getElementById(buttonId).addEventListener('click', ()=>
+        AccountInfo(section, data, app));
+}
