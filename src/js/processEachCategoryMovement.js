@@ -1,5 +1,7 @@
 import { handleEachButton } from "./header-menu.js";
+import {saveMovementsInDataBase} from "./displayAllMovements.js";
 import { displaySelectedCategories } from "./display-categories.js";
+import { moveMovementsListToEnd } from "./displayAllMovements.js";
 export const processEachMovement = (type) =>{
     const categoryButtons = {
         income: {
@@ -73,11 +75,12 @@ const incomeTypeContent = (type, section) => {
         const categoryDiv = document.getElementById(`category-div${type === 'income' ? 'Income' : 'Expense'}`);
         categoryDiv.remove();
         const container = document.querySelector('.container');
-        container.append(categoryType);
+        const movementsList = document.getElementById('movements-list'); 
+        container.append(categoryType, movementsList);
         document.getElementById('back-button').addEventListener('click', ()=>{
-            categoryType.remove(); 
-            displaySelectedCategories(type);
+            moveMovementsListToEnd(categoryType, () => displaySelectedCategories(type), container, movementsList);
         });
+        saveMovementsInDataBase(type);
     }
 };
 
@@ -85,6 +88,7 @@ const createIncomeDivAndForm = (categoryType, categoryTypeId, kindCategoryType, 
     categoryType.id = categoryTypeId;
     categoryType.classList.add('every-category-div');
     const title = type === 'income' ? 'Describe Tu ingreso' : 'Describe Tu egreso';
+    const inputId = type === 'income' ? 'income-description' : 'expense-description';
     categoryType.innerHTML = `
     <div id="backButtonDiv2">
         <button id="back-button">
@@ -94,8 +98,8 @@ const createIncomeDivAndForm = (categoryType, categoryTypeId, kindCategoryType, 
     <div class = "divIncomesForm">
         <form id="add-income-form" class="income-form">
             <div class="input-group">
-                <label for="income-description">${title}</label>
-                <input type="text" id="income-description" placeholder="Ej. ${kindCategoryType}, ${categoryDate} " required>
+                <label for="${inputId}">${title}</label>
+                <input type="text" id="${inputId}" placeholder="Ej. ${kindCategoryType}, ${categoryDate} " required>
             </div>
         </form>
     </div>   
@@ -106,12 +110,16 @@ const createQuantityInput = (form, type) =>{
     const quantityDiv = document.createElement('div');
     quantityDiv.classList.add('input-group');
     const labelText = type === 'income' ? 'Cuanto va a entrar:' : 'Cuanto va a salir:';
+    const inputId = type === 'income' ? 'income-amount' : 'expense-amount';
     quantityDiv.innerHTML = `    
-    <label for="income-amount">${labelText}</label>
-    <input type="number" id="income-amount" placeholder="Ej. 500,000" min="0" step="0.01" required>
+    <label for="${inputId}">${labelText}</label>
+    <input type="number" id="${inputId}" placeholder="Ej. 500,000" min="0" step="0.01" required>
     `;
-    const quantityDivButton = document.createElement('button');
-    quantityDivButton.classList.add('add-income-btn');
+    const quantityDivButton = document.createElement('div');
+    quantityDivButton.id = 'quantityDiv';
+    const buttonText = type === 'income' ? '¡Ingresar!' : '¡Retirar!';
+    const buttonClass = type === 'income' ? 'add-income-btn' : 'add-expense-btn';
+    quantityDivButton.innerHTML = `<button class = '${buttonClass}'>${buttonText}</button>`;
     form.append(quantityDiv, quantityDivButton);
 }
 

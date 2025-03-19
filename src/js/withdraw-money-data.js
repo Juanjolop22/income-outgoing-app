@@ -17,7 +17,7 @@ export const withdrawMoneyData = async () =>{
         const data = await response.json();
         if (response){
             const balanceElement = document.getElementById('money-balance');
-            if (balanceElement) {
+            if (balanceElement){
                 balanceElement.textContent = new Intl.NumberFormat("en-US").format(data.balance);
             }
          };

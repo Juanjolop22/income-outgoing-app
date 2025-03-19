@@ -1,0 +1,63 @@
+@use 'mixins' as *;
+
+#movements-list{
+    @include height-width(600px, 50%);
+    @include make-flex();
+    flex-direction: column;
+    font-family: 'Nunito', sans-serif;
+    background-color: #f4f6f8;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    border-radius: 12px;
+    h3{
+        font-size: 2em;
+        margin-bottom: 1%;
+    }
+    ul{
+        list-style: none;
+        color: #303030;
+        overflow-y: auto !important;
+        @include height-width(100%, 98%);
+        @include make-flex();
+        flex-direction: column;
+        font-size: 1.3em;
+        overflow: hidden;
+
+        
+        li{
+            width: 100%;
+            @include make-flex();
+            justify-content: space-between;
+            padding: 15px; /* Espacio interno */
+            margin-bottom: 10px; /* Separación entre filas */
+            background-color: #f9f9f9; /* Fondo claro */
+            border-radius: 8px; /* Bordes redondeados */
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra sutil */
+            transition: transform 0.2s, box-shadow 0.2s; /* Animación al pasar el mouse */
+        }
+        li:hover {
+            transform: translateY(-2px); /* Levantar ligeramente */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); /* Sombra más pronunciada */
+        }
+    }
+    ul::-webkit-scrollbar {
+        width: 5px; /* Ancho del scrollbar */
+    }
+    
+    ul::-webkit-scrollbar-track {
+        background: #f4f6f8; /* Mismo color que el fondo */
+        border-radius: 12px;
+    }
+    
+    ul::-webkit-scrollbar-thumb {
+        background: #bebdbd; /* Gris claro para la barra */
+        border-radius: 12px;
+    }
+    
+    ul::-webkit-scrollbar-thumb:hover {
+        background: #aaa; /* Gris más oscuro al pasar el mouse */
+    }
+
+
+
+
+}

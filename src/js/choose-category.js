@@ -1,8 +1,15 @@
 import { displaySelectedCategories } from "./display-categories.js";
 import { handleEachButton } from "./header-menu.js";
+//import { getOrCreateMovementsList } from "./display-categories.js";
 export const selectCategory = () =>{
    const container = document.querySelector('.container');
    const categoriesDiv = document.createElement('div');
+   const movementsList = document.getElementById('movements-list');
+
+   if(movementsList){
+    movementsList.remove();
+   }
+
    categoriesDiv.id = 'categories-div';
    categoriesDiv.innerHTML = `
     <div id="kind-of-category-div">

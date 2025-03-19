@@ -1,9 +1,32 @@
 import { processEachMovement } from "./processEachCategoryMovement.js";
+import {displayMovementsList} from "./displayAllMovements.js";
 import { selectCategory } from "./choose-category.js";
+import { moveMovementsListToEnd } from "./displayAllMovements.js";
+
+/*export const getOrCreateMovementsList = () => {
+    let movementsList = document.getElementById('movements-list');
+    const existingLists = document.querySelectorAll('#movements-list');
+    
+    if (existingLists.length > 1) {
+        existingLists.forEach((list, index) => {
+            if (index > 0) list.remove();
+        });
+        movementsList = document.getElementById('movements-list');
+    }
+
+    if (!movementsList) {
+        movementsList = document.createElement('div');
+        movementsList.id = 'movements-list';
+        console.log('Creando nuevo movementsList');
+    }
+
+    return movementsList;
+};*/
 
 export const displaySelectedCategories = (type) =>{
     let categoryDiv = document.getElementById('category-div');
     let categoriesDiv = document.getElementById('categories-div');
+    let movementsList = document.getElementById('movements-list');
     const container = document.querySelector('.container');
 
     if (categoriesDiv) {
@@ -13,6 +36,12 @@ export const displaySelectedCategories = (type) =>{
     if (!categoryDiv) {
         categoryDiv = document.createElement('div');
         categoryDiv.id = `category-div${type === 'income' ? 'Income' : 'Expense'}`;
+    }
+
+    if (!movementsList) {
+        movementsList = document.createElement('div');
+        movementsList.id = 'movements-list';
+        console.log('Creando movementsList por primera vez');
     }
 
     if (type === 'income') {
@@ -62,7 +91,7 @@ export const displaySelectedCategories = (type) =>{
 
     if (type === 'expense') {
         categoryDiv.innerHTML = `
-        <h2 id="expense-tittle">Egresos</h2>
+        <h2 id="expense-tittle">Selecciona el tipo de egreso:</h2>
         <div id="backButtonDiv">
             <button class="back-btn ">
                 <i class="fas fa-arrow-left" id="arrow-left"></i>
@@ -104,16 +133,19 @@ export const displaySelectedCategories = (type) =>{
         </div>
         `;
     }
-    container.append(categoryDiv);
+    container.append(categoryDiv, movementsList);
     categoryDiv.querySelector('.back-btn').addEventListener('click', ()=>{
-        backToChooseCategory(categoryDiv)
+        backToChooseCategory(categoryDiv, movementsList);
     });
     processEachMovement(type);
+    displayMovementsList(type);
 
-} 
+}; 
 
-const backToChooseCategory = (categoryDiv) =>{
-    categoryDiv.remove();
-    selectCategory();
-}
+const backToChooseCategory = (categoryDiv, movementsList) =>{
+    movementsList.remove();
+    moveMovementsListToEnd(categoryDiv, () => selectCategory(), null, null);
+};
+
+
 

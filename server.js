@@ -177,6 +177,69 @@ app.post('/withdrawMoney', (req, res) =>{
     });
 });
 
+app.post('/api/movements', (req, res) => {
+    const { type, description, amount, userId } = req.body;
+
+    if (!type || !description || !amount || !userId) {
+        return res.status(400).json({ message: 'Faltan datos requeridos (type, description, amount, userId)' });
+    }
+
+    // Verificar que el usuario existe
+    pool.query('SELECT * FROM users WHERE id = ?', [userId], (err, user) => {
+        if (err) {
+            return res.status(500).json({ message: 'Error al verificar el usuario', error: err });
+        }
+        if (user.length === 0) {
+            return res.status(404).json({ message: 'Usuario no encontrado' });
+        }
+
+        // Ajustar el amount según el tipo (positivo para income, negativo para expense)
+        const adjustedAmount = type === 'income' ? amount : -amount;
+
+        const query = 'INSERT INTO earnings (user_id, amount, description, date) VALUES (?, ?, ?, NOW())';
+        pool.query(query, [userId, adjustedAmount, description], (err) => {
+            if (err) {
+                return res.status(500).json({ message: 'Error al registrar el movimiento', error: err });
+            }
+
+            // Obtener el balance actualizado
+            const balanceQuery = 'SELECT COALESCE(SUM(amount), 0) AS balance FROM earnings WHERE user_id = ?';
+            pool.query(balanceQuery, [userId], (err, result) => {
+                if (err) {
+                    return res.status(500).json({ message: 'Error al obtener el balance', error: err });
+                }
+
+                res.status(201).json({
+                    message: 'Movimiento registrado con éxito',
+                    balance: result[0].balance
+                });
+            });
+        });
+    });
+});
+
+app.get('/api/movements', (req, res) => {
+    const { type, userId } = req.query;
+
+    if (!type || !userId) {
+        return res.status(400).json({ message: 'Faltan type o userId en la consulta' });
+    }
+
+    const query = `
+        SELECT id, description, amount, date 
+        FROM earnings 
+        WHERE user_id = ? AND amount ${type === 'income' ? '>' : '<'} 0 
+        ORDER BY date DESC
+    `;
+    pool.query(query, [userId], (err, results) => {
+        if (err) {
+            console.error('Error al consultar movimientos:', err);
+            return res.status(500).json({ message: 'Error al obtener movimientos', error: err });
+        }
+        res.json(results);
+    });
+});
+
 app.listen(3001, () => {
     console.log('Servidor corriendo en http://localhost:3001');
 });

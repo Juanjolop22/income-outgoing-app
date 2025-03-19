@@ -162,6 +162,29 @@
             border-bottom: none;
             gap: 15px;
             @include height-width(100%, 100%);
+            #quantityDiv{
+                margin-top: 2%;
+                @include height-width(100%, 100%);             
+                .add-income-btn, .add-expense-btn{
+                    @include height-width(100%, 20%);
+                    background-color: rgb(154, 182, 182);
+                    border:none;
+                    border-radius: 10px;
+                    font-size: 0.8em;
+                    font-family: 'Nunito', sans-serif;
+                }
+                .add-expense-btn{
+                    background-color: rgb(206, 146, 146);
+                }
+                .add-income-btn:hover{
+                    background-color: rgb(117, 167, 167);
+                    cursor: pointer;
+                }
+                .add-expense-btn:hover{
+                    cursor: pointer;
+                    background-color: rgb(187, 103, 103);
+                }
+            }
 
             .input-group{
                 margin-top: 4%;
@@ -172,7 +195,7 @@
                     @include height-width(100%, 80%);
                     font-size: 1.3em;
                 }
-                #income-description, #income-amount{
+                #income-description, #income-amount, #expense-description, #expense-amount{
                     margin-top: 3%;
                     @include height-width(100%, 40%);
                     font-size: 0.8em;
@@ -183,9 +206,8 @@
                 }
                 #income-amount{
                     @include height-width(100%, 20%);
-
-
                 }
+
             }
         }
     }
