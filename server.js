@@ -66,13 +66,13 @@ app.post('/login', (req, res) => {
 });
 
 app.post('/insertMoney', (req, res) => {
-    const { moneyAmount, userId } = req.body;
+    const { moneyAmount, userId, description } = req.body;
     if (!moneyAmount || !userId) {
         console.log('Datos incompletos:', req.body);
         return res.status(400).json({ message: 'Faltan moneyAmount o userId' });
     }
 
-    console.log('Recibiendo request para insertar dinero:', { moneyAmount, userId });
+    console.log('Recibiendo request para insertar dinero:', { moneyAmount, userId, description });
 
     pool.query('SELECT * FROM users WHERE id = ?', [userId], (err, user) => {
         if (err) {
@@ -83,7 +83,7 @@ app.post('/insertMoney', (req, res) => {
             return res.status(404).json({ message: 'Usuario no encontrado' });
         }
 
-        pool.query('INSERT INTO earnings (user_id, amount) VALUES (?, ?)', [userId, moneyAmount], (err) => {
+        pool.query('INSERT INTO earnings (user_id, amount, description) VALUES (?, ?, ?)', [userId, moneyAmount, description || null], (err) => {
             if (err) {
                 return res.status(500).json({ message: 'Error al registrar el ingreso', error: err });
             }
@@ -178,43 +178,43 @@ app.post('/withdrawMoney', (req, res) =>{
 });
 
 app.post('/api/movements', (req, res) => {
-    const { type, description, amount, userId } = req.body;
-
-    if (!type || !description || !amount || !userId) {
-        return res.status(400).json({ message: 'Faltan datos requeridos (type, description, amount, userId)' });
+    const { moneyAmount, userId, description, type } = req.body;
+    if (!moneyAmount || !userId || !type) {
+        console.log('Datos incompletos:', req.body);
+        return res.status(400).json({ message: 'Faltan moneyAmount, userId o type' });
     }
 
-    // Verificar que el usuario existe
+    console.log('Recibiendo request para registrar movimiento:', { moneyAmount, userId, description, type });
+
     pool.query('SELECT * FROM users WHERE id = ?', [userId], (err, user) => {
         if (err) {
             return res.status(500).json({ message: 'Error al verificar el usuario', error: err });
         }
+
         if (user.length === 0) {
             return res.status(404).json({ message: 'Usuario no encontrado' });
         }
 
-        // Ajustar el amount según el tipo (positivo para income, negativo para expense)
-        const adjustedAmount = type === 'income' ? amount : -amount;
+        const adjustedAmount = type === 'income' ? moneyAmount : -moneyAmount; // Ajustar signo según type
 
-        const query = 'INSERT INTO earnings (user_id, amount, description, date) VALUES (?, ?, ?, NOW())';
-        pool.query(query, [userId, adjustedAmount, description], (err) => {
-            if (err) {
-                return res.status(500).json({ message: 'Error al registrar el movimiento', error: err });
-            }
-
-            // Obtener el balance actualizado
-            const balanceQuery = 'SELECT COALESCE(SUM(amount), 0) AS balance FROM earnings WHERE user_id = ?';
-            pool.query(balanceQuery, [userId], (err, result) => {
+        pool.query(
+            'INSERT INTO earnings (user_id, amount, description) VALUES (?, ?, ?)',
+            [userId, adjustedAmount, description || null],
+            (err) => {
                 if (err) {
-                    return res.status(500).json({ message: 'Error al obtener el balance', error: err });
+                    return res.status(500).json({ message: 'Error al registrar el movimiento', error: err });
                 }
 
-                res.status(201).json({
-                    message: 'Movimiento registrado con éxito',
-                    balance: result[0].balance
+                pool.query('SELECT SUM(amount) AS balance FROM earnings WHERE user_id = ?', [userId], (err, rows) => {
+                    if (err) {
+                        console.error('Error al obtener el balance:', err);
+                        return res.status(500).json({ message: 'Error al obtener el balance', error: err });
+                    }
+
+                    res.status(200).json({ message: 'Movimiento registrado con éxito', balance: rows[0].balance });
                 });
-            });
-        });
+            }
+        );
     });
 });
 

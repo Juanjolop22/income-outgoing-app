@@ -62,6 +62,8 @@ export const displayMovementsList = async (type) => {
             ul.appendChild(li);
         });
         movementsList.appendChild(ul);
+        console.log(movements);
+        
     } catch (error) {
         console.error('Error al cargar movimientos:', error);
         movementsList.innerHTML = '<p>Error al cargar los movimientos</p>';

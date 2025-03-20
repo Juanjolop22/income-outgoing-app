@@ -2,6 +2,10 @@ import { handleEachButton } from "./header-menu.js";
 import {saveMovementsInDataBase} from "./displayAllMovements.js";
 import { displaySelectedCategories } from "./display-categories.js";
 import { moveMovementsListToEnd } from "./displayAllMovements.js";
+import { insertMoneyData } from "./insertMoneyData.js";
+import { withdrawMoneyData } from "./withdraw-money-data.js";
+import { inputFirstLetter } from "./main-menu.js";
+
 export const processEachMovement = (type) =>{
     const categoryButtons = {
         income: {
@@ -80,11 +84,12 @@ const incomeTypeContent = (type, section) => {
         document.getElementById('back-button').addEventListener('click', ()=>{
             moveMovementsListToEnd(categoryType, () => displaySelectedCategories(type), container, movementsList);
         });
-        saveMovementsInDataBase(type);
+        //saveMovementsInDataBase(type);
     }
 };
 
 const createIncomeDivAndForm = (categoryType, categoryTypeId, kindCategoryType, categoryDate, type) =>{
+    const amountInputId = type === 'income' ? 'income-amount' : 'expense-amount';
     categoryType.id = categoryTypeId;
     categoryType.classList.add('every-category-div');
     const title = type === 'income' ? 'Describe Tu ingreso' : 'Describe Tu egreso';
@@ -104,6 +109,25 @@ const createIncomeDivAndForm = (categoryType, categoryTypeId, kindCategoryType, 
         </form>
     </div>   
     `; 
+    setTimeout(() => {
+        const form = document.getElementById(`add-income-form`);
+        if (form) {
+            form.removeEventListener('submit', handleFormSubmit); 
+            form.addEventListener('submit', handleFormSubmit, { once: true }); 
+        } else {
+            console.error('El formulario no se encontró en el DOM');
+        }
+        inputFirstLetter(amountInputId);
+    }, 0);
+
+    const handleFormSubmit = (e) => {
+        e.preventDefault();
+        if (type === 'income') {
+            insertMoneyData(type);
+        } else {
+            withdrawMoneyData();
+        }
+    }
 }
 
 const createQuantityInput = (form, type) =>{
@@ -113,7 +137,7 @@ const createQuantityInput = (form, type) =>{
     const inputId = type === 'income' ? 'income-amount' : 'expense-amount';
     quantityDiv.innerHTML = `    
     <label for="${inputId}">${labelText}</label>
-    <input type="number" id="${inputId}" placeholder="Ej. 500,000" min="0" step="0.01" required>
+    <input type="text" id="${inputId}" placeholder="Ej. 500,000" min="0" step="0.01" required>
     `;
     const quantityDivButton = document.createElement('div');
     quantityDivButton.id = 'quantityDiv';

@@ -1,6 +1,6 @@
-import { insertMoneyData } from "./insertMoneyData.js";
+//import { insertMoneyData } from "./insertMoneyData.js";
 import { handleCreateHeader } from "./header-menu.js";
-import {withdrawMoneyData } from "./withdraw-money-data.js";
+//import {withdrawMoneyData } from "./withdraw-money-data.js";
 import { selectCategory } from "./choose-category.js";
 
 export const mainMenu = async (app) => {
@@ -37,9 +37,9 @@ export const mainMenu = async (app) => {
 
 
         handleUpdateMoneyBalance('addMoney-button', '¿cuanto agregaras?', '¡Listo!',
-             'formToInsertMoney', 'inputInsertMoney', insertMoneyData);
+             'formToInsertMoney', 'inputInsertMoney', /*insertMoneyData*/);
         handleUpdateMoneyBalance('addMoney-button2', '¿cuanto retiraras?', '¡Retirar!',
-             'formToWithdrawMoney', 'inputWithdrawMoney', withdrawMoneyData);
+             'formToWithdrawMoney', 'inputWithdrawMoney', /*withdrawMoneyData*/);
 
         app.classList.add('app-background');
 

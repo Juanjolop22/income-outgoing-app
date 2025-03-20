@@ -4,6 +4,8 @@
     @include make-flex();
     @include height-width(100%, 100%);
     flex-direction: column;
+    position: relative;
+    overflow: visible;
     gap: 60px;
 
     .current-money-div{
