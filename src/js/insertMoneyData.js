@@ -4,19 +4,15 @@ export const insertMoneyData = async (type) => {
     const moneyAmount = parseFloat(document.getElementById(amountId).value.replace(/[^0-9.]/g, ""));
     const description = document.getElementById(descriptionId).value;
     const userId = sessionStorage.getItem('userId');
-    console.log('userId obtenido de sessionStorage:', userId);
-    console.log('moneyAmount enviado:', moneyAmount);
-    console.log('description enviada:', description);
-    console.log('Iniciando solicitud a insertMoney...');
-    console.log('Data being sent:', { moneyAmount, userId, description, type });
 
     if (!userId) {
         console.error('No hay userId en sessionStorage');
         return;
     }
-
+    const endpoint = type === 'income' ? 'http://localhost:3001/insertMoney' : 'http://localhost:3001/withdrawMoney';
+    
     try {
-        const response = await fetch('http://localhost:3001/insertMoney', {
+        const response = await fetch(endpoint, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ moneyAmount, userId, description, type })
@@ -29,12 +25,11 @@ export const insertMoneyData = async (type) => {
         const data = await response.json();
         console.log('Respuesta del servidor:', data);
 
-        if (data.message === 'Ingreso registrado con éxito') {
+        if (data.message === 'Ingreso registrado con éxito' || data.message === 'Retiro registrado con éxito') {
             const balanceElement = document.getElementById('money-balance');
             if (balanceElement) {
                 balanceElement.textContent = new Intl.NumberFormat("en-US").format(data.balance);
             }
-            // Opcional: Limpiar el formulario después de la inserción
             const form = document.getElementById('add-income-form');
             if (form) form.reset();
         }

@@ -66,13 +66,14 @@ app.post('/login', (req, res) => {
 });
 
 app.post('/insertMoney', (req, res) => {
-    const { moneyAmount, userId, description } = req.body;
+    const { moneyAmount, userId, description, type } = req.body;
+
     if (!moneyAmount || !userId) {
         console.log('Datos incompletos:', req.body);
         return res.status(400).json({ message: 'Faltan moneyAmount o userId' });
     }
 
-    console.log('Recibiendo request para insertar dinero:', { moneyAmount, userId, description });
+    console.log('Recibiendo request para insertar dinero:', { moneyAmount, userId, description, type });
 
     pool.query('SELECT * FROM users WHERE id = ?', [userId], (err, user) => {
         if (err) {
@@ -83,21 +84,26 @@ app.post('/insertMoney', (req, res) => {
             return res.status(404).json({ message: 'Usuario no encontrado' });
         }
 
-        pool.query('INSERT INTO earnings (user_id, amount, description) VALUES (?, ?, ?)', [userId, moneyAmount, description || null], (err) => {
-            if (err) {
-                return res.status(500).json({ message: 'Error al registrar el ingreso', error: err });
-            }
-
-            pool.query('SELECT SUM(amount) AS balance FROM earnings WHERE user_id = ?', [userId], (err, rows) => {
+        pool.query(
+            'INSERT INTO earnings (user_id, amount, description, type) VALUES (?, ?, ?, ?)',
+            [userId, moneyAmount, description || null, type || 'income'],
+            (err) => {
                 if (err) {
-                    console.error('Error al obtener el balance:', err);
-                    return res.status(500).json({ message: 'Error al obtener el balance', error: err });
+                    console.error('Error al registrar el ingreso:', err);
+                    return res.status(500).json({ message: 'Error al registrar el ingreso', error: err });
                 }
 
-                console.log('Resultado de la suma de ingresos:', rows);
-                res.status(200).json({ message: 'Ingreso registrado con éxito', balance: rows[0].balance });
-            });
-        });
+                pool.query('SELECT SUM(amount) AS balance FROM earnings WHERE user_id = ?', [userId], (err, rows) => {
+                    if (err) {
+                        console.error('Error al obtener el balance:', err);
+                        return res.status(500).json({ message: 'Error al obtener el balance', error: err });
+                    }
+
+                    console.log('Resultado de la suma de ingresos:', rows);
+                    res.status(200).json({ message: 'Ingreso registrado con éxito', balance: rows[0].balance });
+                });
+            }
+        );
     });
 });
 
@@ -143,29 +149,41 @@ app.get('/getUserBalance', (req, res) => {
     });
 });
 
-app.post('/withdrawMoney', (req, res) =>{
-    const {userId, moneyAmount} = req.body;
+app.post('/withdrawMoney', (req, res) => {
+    const { moneyAmount, userId, description, type } = req.body;
 
-    const balanceQuery = `SELECT COALESCE(SUM(amount),0) AS balance FROM earnings WHERE user_Id = ?`;
-    pool.query(balanceQuery, [userId], (err, result) =>{
+    // Validación básica de datos requeridos
+    if (!moneyAmount || !userId) {
+        console.log('Datos incompletos:', req.body);
+        return res.status(400).json({ message: 'Faltan moneyAmount o userId' });
+    }
 
+    console.log('Recibiendo request para retirar dinero:', { moneyAmount, userId, description, type });
+
+    const balanceQuery = `SELECT COALESCE(SUM(amount), 0) AS balance FROM earnings WHERE user_id = ?`;
+    pool.query(balanceQuery, [userId], (err, result) => {
         if (err) {
+            console.error('Error al obtener el balance:', err);
             return res.status(500).json({ message: 'Error al obtener el balance', error: err });
         }
-        const currentBalance = result[0].balance;
 
+        const currentBalance = result[0].balance;
         if (currentBalance < moneyAmount) {
             return res.status(400).json({ message: 'Fondos insuficientes' });
         }
 
-        pool.query('INSERT INTO earnings (user_id, amount) VALUES (?, ?)', [userId, -moneyAmount], (err) => {
+        // Modificamos la consulta para incluir description y type
+        const insertQuery = `INSERT INTO earnings (user_id, amount, description, type) VALUES (?, ?, ?, ?)`;
+        pool.query(insertQuery, [userId, -moneyAmount, description || null, type || 'expense'], (err) => {
             if (err) {
+                console.error('Error al registrar el retiro:', err);
                 return res.status(500).json({ message: 'Error al registrar el retiro', error: err });
             }
 
             pool.query(balanceQuery, [userId], (err, newResult) => {
                 if (err) {
-                    return res.status(500).json({ message: 'Error al obtener el balance', error: err });
+                    console.error('Error al obtener el nuevo balance:', err);
+                    return res.status(500).json({ message: 'Error al obtener el nuevo balance', error: err });
                 }
 
                 res.json({

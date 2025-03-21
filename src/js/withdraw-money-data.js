@@ -1,5 +1,5 @@
 import { insertMoneyData } from "./insertMoneyData";
 
-export const withdrawMoneyData = async () => {
-    await insertMoneyData('expense');
+export const withdrawMoneyData = () => {
+     insertMoneyData('expense');
 };

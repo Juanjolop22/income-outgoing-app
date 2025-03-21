@@ -21,7 +21,10 @@ const registerFormContent = (formContainer) =>{
         <p>Crea una contraseña.</p>
         <input id = "passWordRegister" type="password" name="password" placeholder="dante321" required autocomplete="new-password"><br>
         <button class = "registButton" type="submit">Crear Cuenta</button>
-        <div class = 'to-register-div'><p>¿ya tienes cuenta?</p><button class = "logInButton">Inicia sesión</button></div>
+        <div class = 'to-register-div'>
+           <p>¿ya tienes cuenta?</p>
+           <button class = "logInButton">Inicia sesión</button>
+        </div>
       `;
       formContainer.append(registerForm);
       document.querySelector('.logInButton').addEventListener('click', listenToStartButton);
