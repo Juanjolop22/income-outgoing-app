@@ -1,5 +1,6 @@
 import { handleCreateHeader } from "./header-menu.js";
 import { selectCategory } from "./choose-category.js";
+import loadFinancialChart from "./financialCharts.js";
 
 export const mainMenu = async (app) => {
     const userId = sessionStorage.getItem('userId');
@@ -24,9 +25,9 @@ export const mainMenu = async (app) => {
           <div class="current-money-div">
             <h1>Tu balance actual</h1>
             <p>$ <span id="money-balance">${new Intl.NumberFormat("en-US").format(data.balance)}</span></p>
-
           </div>
         </div>`;
+        loadFinancialChart();
         selectCategory();
 
         app.classList.add('app-background');

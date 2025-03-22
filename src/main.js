@@ -1,5 +1,5 @@
 import './styles/main.scss';
-import { listenToStartButton } from './js/login.js';
+import { listenToStartButton } from './javascript/login.js';
 
 const startButton = document.querySelector('.start-button');
 startButton.addEventListener('click', ()=>{

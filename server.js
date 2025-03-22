@@ -258,6 +258,42 @@ app.get('/api/movements', (req, res) => {
     });
 });
 
+app.get('/getFinancialStats', (req, res) => {
+    const { userId } = req.query;
+
+    if (!userId) {
+        return res.status(400).json({ message: 'Falta el parámetro userId' });
+    }
+
+    const statsQuery = `
+        SELECT 
+            COALESCE(SUM(CASE WHEN type = 'income' THEN amount ELSE 0 END), 0) AS totalIncome,
+            COALESCE(SUM(CASE WHEN type = 'expense' THEN -amount ELSE 0 END), 0) AS totalExpenses,
+            COALESCE(SUM(ABS(amount)), 0) AS totalAbsolute
+        FROM earnings 
+        WHERE user_id = ?;
+    `;
+
+    pool.query(statsQuery, [userId], (err, result) => {
+        if (err) {
+            console.error('Error al obtener estadísticas financieras:', err);
+            return res.status(500).json({ message: 'Error al obtener estadísticas', error: err });
+        }
+
+        const { totalIncome, totalExpenses, totalAbsolute } = result[0];
+        
+        const incomePercentage = totalAbsolute > 0 ? (totalIncome / totalAbsolute) * 100 : 0;
+        const expensePercentage = totalAbsolute > 0 ? (totalExpenses / totalAbsolute) * 100 : 0;
+
+        res.json({
+            totalIncome,
+            totalExpenses,
+            incomePercentage: Number(incomePercentage.toFixed(2)), 
+            expensePercentage: Number(expensePercentage.toFixed(2))
+        });
+    });
+});
+
 app.listen(3001, () => {
     console.log('Servidor corriendo en http://localhost:3001');
 });
